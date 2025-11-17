@@ -1,98 +1,58 @@
 <?php
 session_start();
-
-// ===============================
-// SECURITY: Chỉ cho Manager đã đăng nhập
-// ===============================
-if (!isset($_SESSION['manager_logged_in'])) {
+require_once 'settings.php'; // $conn = mysqli_connect(...);
+// Manager phải login
+if (!isset($_SESSION['manager_logged_in']) || $_SESSION['manager_logged_in'] !== true) {
     header("Location: manager_login.php");
     exit();
 }
 
-require_once "settings.php";
+// CSRF token
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+$csrf = $_SESSION['csrf_token'];
 
-
-// ===============================
-// XỬ LÝ FORM: CHANGE STATUS
-// ===============================
-if (isset($_POST['update_status'])) {
-    $id = intval($_POST['eoi_id']);
-    $new_status = $_POST['new_status'];
-
-    $valid_status = ["New", "Current", "Final"];
-    if (in_array($new_status, $valid_status)) {
-        $stmt = $conn->prepare("UPDATE eoi SET status = ? WHERE id = ?");
-        $stmt->bind_param("si", $new_status, $id);
-        $stmt->execute();
-        $stmt->close();
-        $status_message = "Status updated successfully!";
-    }
+// Message hiển thị khi redirect
+$msg = '';
+if (!empty($_GET['msg'])) {
+    $map = [
+        'deleted' => 'Record deleted successfully!',
+        'status'  => 'Status updated successfully!',
+        'error'   => 'An error occurred.'
+    ];
+    $msg = $map[$_GET['msg']] ?? htmlspecialchars($_GET['msg']);
 }
 
-
-// ===============================
-// XỬ LÝ FORM: DELETE ALL BY JOBREF
-// ===============================
-if (isset($_POST['delete_by_jobref'])) {
-    $jobref = trim($_POST['jobref_delete']);
-
-    $stmt = $conn->prepare("DELETE FROM eoi WHERE jobref = ?");
-    $stmt->bind_param("s", $jobref);
-    $stmt->execute();
-    $stmt->close();
-
-    $delete_message = "All EOIs with job reference <strong>$jobref</strong> have been deleted.";
-}
-
-
-// ===============================
-// XỬ LÝ TÌM KIẾM – THEO RUBRIC
-// ===============================
-
-$conditions = [];
+// Xử lý tìm kiếm
+$search = trim($_GET['search'] ?? '');
+$where_sql = "";
 $params = [];
 $types = "";
 
-// Lọc theo JobRef
-if (!empty($_GET['jobref'])) {
-    $conditions[] = "jobref = ?";
-    $params[] = $_GET['jobref'];
-    $types .= "s";
+if ($search !== "") {
+    $where_sql = "WHERE lname LIKE ? OR jobref LIKE ?";
+    $search_param = "%{$search}%";
+    $params = [$search_param, $search_param];
+    $types = "ss";
 }
 
-// Lọc theo First Name
-if (!empty($_GET['fname'])) {
-    $conditions[] = "fname LIKE ?";
-    $params[] = "%" . $_GET['fname'] . "%";
-    $types .= "s";
-}
+// Query EOI
+$sql = "SELECT id, jobref, fname, lname, email, phone, status, submitted_at 
+        FROM eoi 
+        $where_sql 
+        ORDER BY submitted_at DESC";
 
-// Lọc theo Last Name
-if (!empty($_GET['lname'])) {
-    $conditions[] = "lname LIKE ?";
-    $params[] = "%" . $_GET['lname'] . "%";
-    $types .= "s";
-}
-
-// Gộp điều kiện SQL
-$where_sql = "";
-if (!empty($conditions)) {
-    $where_sql = "WHERE " . implode(" AND ", $conditions);
-}
-
-// Query cuối cùng
-$sql = "SELECT * FROM eoi $where_sql ORDER BY submitted_at DESC";
 $stmt = $conn->prepare($sql);
+if (!$stmt) die("SQL Error: " . $conn->error);
 
-if (!empty($conditions)) {
+if (!empty($params)) {
     $stmt->bind_param($types, ...$params);
 }
 
 $stmt->execute();
 $result = $stmt->get_result();
-
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -100,113 +60,94 @@ $result = $stmt->get_result();
     <meta charset="UTF-8">
     <title>Manage EOIs</title>
     <link rel="stylesheet" href="styles/styles.css">
+    <link rel="stylesheet" href="styles/manage.css">
 </head>
 
 <body>
 
     <?php include 'header.inc'; ?>
 
-    <main class="manage-container">
-        <h1>Manage Expressions of Interest (EOIs)</h1>
+    <main>
+        <h1>Manage EOIs</h1>
 
-
-        <!-- =============================== -->
-        <!-- THÔNG BÁO HÀNH ĐỘNG -->
-        <!-- =============================== -->
-        <?php if (!empty($status_message)): ?>
-        <p style="color: green;"><?= $status_message ?></p>
+        <?php if ($msg): ?>
+        <p style="color: green"><?= htmlspecialchars($msg) ?></p>
         <?php endif; ?>
-
-        <?php if (!empty($delete_message)): ?>
-        <p style="color: red;"><?= $delete_message ?></p>
-        <?php endif; ?>
-
-
-        <!-- =============================== -->
-        <!-- FORM TÌM KIẾM THEO RUBRIC -->
-        <!-- =============================== -->
-        <section class="search-section">
-            <h2>Search EOIs</h2>
-            <form method="get" action="manage.php">
-
-                <label>Job Reference:</label>
-                <input type="text" name="jobref" placeholder="e.g., NA101"
-                    value="<?= htmlspecialchars($_GET['jobref'] ?? '') ?>">
-
-                <label>First Name:</label>
-                <input type="text" name="fname" placeholder="First Name"
-                    value="<?= htmlspecialchars($_GET['fname'] ?? '') ?>">
-
-                <label>Last Name:</label>
-                <input type="text" name="lname" placeholder="Last Name"
-                    value="<?= htmlspecialchars($_GET['lname'] ?? '') ?>">
-
-                <button type="submit">Search</button>
-                <a href="manage.php" class="btn secondary">Reset</a>
+        <!-- Logout button -->
+        <div class="logout-container">
+            <form action="manager_logout.php" method="post" style="display:inline;">
+                <button type="submit" class="logout">Logout</button>
             </form>
-        </section>
+        </div>
+
+        <!-- Search form -->
+        <form method="get" action="manage.php" class="search-form">
+            <input type="text" name="search" placeholder="Search by Last Name or Job Ref"
+                value="<?= htmlspecialchars($search) ?>">
+            <button type="submit">Search</button>
+            <a href="manage.php">Reset</a>
+        </form>
 
 
-        <!-- =============================== -->
-        <!-- DELETE ALL BY JOBREF -->
-        <!-- =============================== -->
-        <section class="delete-section">
-            <h2>Delete All EOIs by Job Reference</h2>
-            <form method="post">
-                <input type="text" name="jobref_delete" required placeholder="Enter Job Reference (e.g., BE204)">
-                <button type="submit" name="delete_by_jobref" class="btn danger">Delete All</button>
-            </form>
-        </section>
 
+        <!-- Table -->
+        <table border="1" cellpadding="6" cellspacing="0">
+            <tr>
+                <th>ID</th>
+                <th>Job Ref</th>
+                <th>First</th>
+                <th>Last</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Submitted</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
 
-        <!-- =============================== -->
-        <!-- HIỂN THỊ BẢNG EOI -->
-        <!-- =============================== -->
-        <section class="list-section">
-            <h2>EOI Records</h2>
+            <?php while ($row = $result->fetch_assoc()): ?>
+            <tr>
+                <td><?= $row['id'] ?></td>
+                <td><?= htmlspecialchars($row['jobref']) ?></td>
+                <td><?= htmlspecialchars($row['fname']) ?></td>
+                <td><?= htmlspecialchars($row['lname']) ?></td>
+                <td><?= htmlspecialchars($row['email']) ?></td>
+                <td><?= htmlspecialchars($row['phone']) ?></td>
+                <td><?= htmlspecialchars($row['submitted_at']) ?></td>
+                <td><?= htmlspecialchars($row['status']) ?></td>
 
-            <table border="1" cellpadding="5" cellspacing="0">
-                <tr>
-                    <th>ID</th>
-                    <th>Job Ref</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Status</th>
-                    <th>Submitted At</th>
-                    <th>Actions</th>
-                </tr>
+                <td>
 
-                <?php while ($row = $result->fetch_assoc()): ?>
-                <tr>
-                    <td><?= $row['id']; ?></td>
-                    <td><?= htmlspecialchars($row['jobref']); ?></td>
-                    <td><?= htmlspecialchars($row['fname'] . " " . $row['lname']); ?></td>
-                    <td><?= htmlspecialchars($row['email']); ?></td>
-                    <td><?= htmlspecialchars($row['phone']); ?></td>
-                    <td><?= htmlspecialchars($row['status']); ?></td>
-                    <td><?= $row['submitted_at']; ?></td>
+                    <!-- View -->
+                    <a href="view_eoi.php?id=<?= $row['id'] ?>">View</a>
 
-                    <td>
-                        <!-- Update status form -->
-                        <form method="post" style="display:inline-block;">
-                            <input type="hidden" name="eoi_id" value="<?= $row['id'] ?>">
+                    <!-- Update status -->
+                    <form action="update_status.php" method="post" style="display:inline-block;">
+                        <input type="hidden" name="csrf_token" value="<?= $csrf ?>">
+                        <input type="hidden" name="id" value="<?= $row['id'] ?>">
+                        <select name="status">
+                            <?php
+                                foreach (['New', 'Current', 'Final'] as $s) {
+                                    $sel = ($s === $row['status']) ? "selected" : "";
+                                    echo "<option value='$s' $sel>$s</option>";
+                                }
+                                ?>
+                        </select>
+                        <button type="submit" class="update">Update</button>
+                    </form>
 
-                            <select name="new_status">
-                                <option <?= $row['status']=="New"?"selected":"" ?>>New</option>
-                                <option <?= $row['status']=="Current"?"selected":"" ?>>Current</option>
-                                <option <?= $row['status']=="Final"?"selected":"" ?>>Final</option>
-                            </select>
+                    <!-- Delete -->
+                    <form action="delete_eoi.php" method="post" style="display:inline-block;"
+                        onsubmit="return confirm('Delete this EOI?');">
+                        <input type="hidden" name="csrf_token" value="<?= $csrf ?>">
+                        <input type="hidden" name="id" value="<?= $row['id'] ?>">
+                        <button type="submit" class="delete">Delete</button>
+                    </form>
 
-                            <button name="update_status">Update</button>
-                        </form>
-                    </td>
+                </td>
+            </tr>
+            <?php endwhile; ?>
 
-                </tr>
-                <?php endwhile; ?>
-
-            </table>
-        </section>
+        </table>
 
     </main>
 
@@ -215,8 +156,3 @@ $result = $stmt->get_result();
 </body>
 
 </html>
-
-<?php
-$stmt->close();
-$conn->close();
-?>
