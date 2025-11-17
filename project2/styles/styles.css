@@ -1,0 +1,924 @@
+/* =======================================================
+   File: Apply.html
+   Author: Thuy Diep
+   Project: SmartTech Solutions Website
+   Purpose: Defines layout, form styling, and responsive design
+            for a clean, user-friendly interface.
+            Job Application page allowing applicants to submit
+            personal details, contact information, and technical
+            skills for positions listed in jobs.html.
+   ======================================================= */
+
+/* =======================================================
+   GENERAL LAYOUT & BASE STYLES
+   ======================================================= */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    background-color: #f7f9fc;
+    color: #222;
+}
+
+
+/* =======================================================
+   FORM SECTION STYLING
+   ======================================================= */
+.form-section h2 {
+    color: #003366;
+    margin-bottom: 0.5rem;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    /* Stack form elements vertically */
+    gap: 1.5rem;
+    /* Space between form sections */
+}
+
+fieldset {
+    border: 2px solid #00509e;
+    border-radius: 8px;
+    padding: 1rem;
+}
+
+legend {
+    font-weight: bold;
+    color: #003366;
+}
+
+/* Align labels and inputs neatly on one line */
+.form-group {
+    display: flex;
+    flex-wrap: wrap;
+    /* Wrap elements on smaller screens */
+    align-items: center;
+    /* Vertically align labels and inputs */
+    margin-bottom: 0.8rem;
+}
+
+/* Label styling */
+label {
+    width: 180px;
+    font-weight: 600;
+}
+
+/* Input, select, and textarea base styles */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="date"],
+select,
+textarea {
+    flex: 1;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+/* Focus state for better accessibility */
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
+input[type="date"]:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: #0074d9;
+    box-shadow: 0 0 3px #0074d9;
+}
+
+/* Validation error message */
+.error {
+    color: #c0392b;
+    margin-top: 0.25rem;
+    font-size: 0.95rem;
+}
+
+/* Gender radio button spacing */
+.gender-group label {
+    margin-right: 1rem;
+}
+
+/* Checkbox group layout */
+.checkbox-group label {
+    display: inline-block;
+    margin-right: 1rem;
+    margin-bottom: 0.3rem;
+}
+
+/* Textarea customization */
+textarea {
+    width: 100%;
+    resize: vertical;
+    /* Allow only vertical resizing */
+}
+
+
+/* =======================================================
+   SUBMIT BUTTON STYLING
+   ======================================================= */
+.form-submit {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+input[type="submit"] {
+    background-color: #00509e;
+    color: #fff;
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+input[type="submit"]:hover {
+    background-color: #0074d9;
+}
+
+
+/* =======================================================
+   FOOTER SECTION STYLING
+   ======================================================= */
+footer {
+    text-align: center;
+    padding: 1rem;
+    background: linear-gradient(90deg, #06062d 0%, #0a2a5e 70%, #1f4e8c 100%);
+    color: #fff;
+    margin-top: 2rem;
+}
+
+footer a {
+    color: #2d8faa;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+
+/* =======================================================
+   RESPONSIVE DESIGN
+   ======================================================= */
+@media (max-width: 700px) {
+    label {
+        width: 100%;
+        margin-bottom: 0.3rem;
+    }
+
+    .form-group {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    input,
+    select,
+    textarea {
+        width: 100%;
+    }
+}
+
+
+/* =======================================================
+   APPLY PAGE LAYOUT (FORM + SIDEBAR)
+   ======================================================= */
+.apply-layout {
+    display: grid;
+    grid-template-columns: 2.3fr 0.9fr;
+    /* Sidebar narrower than form */
+    gap: 2rem;
+    padding: 2rem;
+    align-items: start;
+    /* Align both sections from top */
+}
+
+/* Sidebar styling */
+.apply-sidebar {
+    background-color: #f0f4ff;
+    border-left: 4px solid #00509e;
+    padding: 1rem 1.2rem;
+    border-radius: 8px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.08);
+    max-height: 90%;
+    overflow-y: auto;
+    /* Scroll if content exceeds height */
+}
+
+/* Sidebar headings */
+.apply-sidebar h2,
+.apply-sidebar h3 {
+    color: #003366;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Sidebar lists and text */
+.apply-sidebar ul {
+    padding-left: 1.2rem;
+    line-height: 1.5;
+}
+
+.apply-sidebar li {
+    margin-bottom: 0.5rem;
+}
+
+.apply-sidebar p {
+    line-height: 1.5;
+    margin-bottom: 0.8rem;
+}
+
+/* Responsive sidebar layout */
+@media (max-width: 900px) {
+    .apply-layout {
+        grid-template-columns: 1fr;
+        /* Stack layout */
+    }
+
+    .apply-sidebar {
+        margin-top: 2rem;
+        max-height: none;
+    }
+}
+
+
+/* =======================================================
+   CENTERED TEXTAREA ("Other Skills")
+   ======================================================= */
+#others {
+    display: block;
+    margin: 0 auto;
+    width: 80%;
+}
+
+
+
+/* =======================================================
+   GLOBAL HEADER STYLES
+   Author: Hai Anh 
+   Purpose:
+   Provide a consistent, accessible, and responsive header layout across all pages. The design integrates the company logo, title, and primary navigation links with high contrast and flexible scaling.
+   ======================================================= */
+
+/* Header container: flexbox layout for horizontal alignment.
+   Components: Logo (left), Title (center-left), Navigation (right). */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    /* Allows wrapping on small screens */
+    background: linear-gradient(90deg, #06062d 0%, #0a2a5e 70%, #1f4e8c 100%);
+    color: #ffffff;
+    padding: 1rem 2rem;
+}
+
+/* Company logo styling — positioned on the left with proportional scaling. */
+header img.site-logo {
+    width: 250px;
+    height: auto;
+    flex-shrink: 0;
+}
+
+/* Page title positioned near the logo with metallic gradient text.
+   This conveys a professional, high-tech brand identity. */
+header h1 {
+    margin: 0 1rem;
+    font: bold 2rem "Arial", sans-serif;
+    background: linear-gradient(to right, #b0b5bb, #ffffff);
+    background-clip: text;
+    color: transparent;
+    letter-spacing: 1px;
+}
+
+/* Navigation bar aligned to the right using flexbox. */
+nav ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 1rem;
+    /* Spacing between nav items */
+}
+
+nav ul li a {
+    color: #e0e0ff;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+/* Hover and active link state: brighter blue color for contrast.
+   The color is chosen to match the company logo. */
+nav ul li a:hover,
+nav ul li a[aria-current="page"] {
+    background-color: #2d3482;
+    color: #ffffff;
+}
+
+/* Responsive header adjustments for tablets and smaller screens. */
+@media (max-width: 700px) {
+    header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 1rem;
+    }
+
+    header h1 {
+        margin: 0.5rem 0;
+        font-size: 1.6rem;
+    }
+
+    nav ul {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    nav ul li a {
+        display: block;
+        width: 100%;
+    }
+}
+
+/* =======================================================
+   Main Content Container (Responsive)
+   Author: Hai Anh
+   Purpose: Create a flexible content area that adapts to different screen sizes while maintaining readability.
+   ======================================================= */
+
+main {
+    width: 90%;
+    /* occupy 90% of the screen width */
+    max-width: 1200px;
+    /* prevent it from stretching too wide */
+    margin: 2rem auto;
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* =======================================================
+   Jobs Page Layout (Aside Float Right)
+   Author: Hai Anh
+   Purpose:
+   Implements layout where <aside> floats right (25%)
+   and job descriptions occupy remaining 75%.
+   ======================================================= */
+
+.jobs main {
+    width: 90%;
+    max-width: 1200px;
+    margin: 2rem auto;
+    overflow: auto;
+    /* allows main to wrap floated aside */
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    box-sizing: border-box;
+}
+
+/* Introductory article (full width, above columns) */
+.jobs article {
+    margin-bottom: 1.5rem;
+    border-left: 5px solid #b0b5bb;
+    padding-left: 1rem;
+}
+
+/* Float aside to the right (25%) as required by specification */
+.jobs aside {
+    float: right;
+    width: 25%;
+
+    /* Dual-layer gradient: base silver + light highlight for gloss */
+    background:
+        radial-gradient(circle at 10% 5%, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0) 35%),
+        linear-gradient(160deg, #ffffff 0%, #f3f4f6 45%, #dfe3e8 100%);
+
+    border: 2px solid #b0b5bb;
+    border-radius: 10px;
+    padding: 1.2rem;
+    margin-left: 2rem;
+    margin-bottom: 1rem;
+    box-sizing: border-box;
+
+    /* Elevation and internal reflection */
+    box-shadow:
+        inset 0 2px 6px rgba(255, 255, 255, 0.5),
+        0 4px 14px rgba(0, 0, 0, 0.1);
+
+    color: #06062d;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+/* Headings inside aside: deep blue for subtle contrast */
+.jobs aside h2,
+.jobs aside h3 {
+    color: #003366;
+    margin-top: 0.5rem;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.9);
+}
+
+
+/* Job sections occupy remaining width (≈75%) */
+.jobs section {
+    width: 70%;
+    margin-bottom: 2rem;
+    box-sizing: border-box;
+}
+
+/* Headings within job sections */
+.jobs section h2 {
+    color: #06062d;
+    border-bottom: 2px solid #b0b5bb;
+    padding-bottom: 0.3rem;
+    margin-top: 0;
+}
+
+/* Lists for better readability */
+.jobs section ul,
+.jobs section ol {
+    margin: 0.5rem 0 0.5rem 1rem;
+    line-height: 1.6;
+}
+
+/* Responsive behavior */
+@media (max-width: 900px) {
+    .jobs aside {
+        float: none;
+        width: 100%;
+        margin: 1rem 0;
+    }
+
+    .jobs section {
+        width: 100%;
+    }
+}
+
+
+/* =======================================================
+   ABOUT PAGE STYLING
+   Author: Le Thi Thuy Diep
+   Purpose:
+   Defines layout, typography, and presentation for the About Us page.
+   Highlights team members, contributions, and interests with a clean,
+   friendly, and professional layout consistent with SmartTech Solutions.
+   ======================================================= */
+
+/* ---------- Main content container ---------- */
+.about-page main {
+    width: 90%;
+    max-width: 1200px;
+    margin: 2rem auto;
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* ---------- Section container: clear border separation ---------- */
+.about-page section {
+    background-color: #ffffff;
+    border: 1.8px solid #cdd7ee;
+    border-radius: 10px;
+    padding: 1.5rem 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 50, 0.05);
+}
+
+/* Slightly lighter background for the first section */
+.about-page section:first-of-type {
+    background-color: #f8faff;
+}
+
+/* Section headings */
+.about-page section h2 {
+    color: #003366;
+    border-left: 5px solid #00509e;
+    padding-left: 0.8rem;
+    margin-bottom: 1rem;
+}
+
+/* Adjust internal spacing for all elements inside sections */
+.about-page section ul,
+.about-page section dl,
+.about-page section table,
+.about-page section p {
+    margin-bottom: 1rem;
+}
+
+/* ---------- Headings & text ---------- */
+.about-page h2 {
+    color: #003366;
+    border-left: 5px solid #00509e;
+    padding-left: 0.6rem;
+    margin-top: 1.5rem;
+}
+
+.about-page p {
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+/* ---------- Group information list ---------- */
+.about-page ul {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0 1.2rem 0;
+}
+
+.about-page ul li {
+    margin-bottom: 0.5rem;
+}
+
+.about-page ul li strong {
+    color: #00509e;
+}
+
+/* ---------- Definition list (Contributions) ---------- */
+.about-page dl {
+    margin-left: 1rem;
+}
+
+.about-page dt {
+    font-weight: bold;
+    color: #06062d;
+    margin-top: 0.8rem;
+}
+
+.about-page dd {
+    margin-left: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+/* ---------- Table styling ---------- */
+.about-page table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    background-color: #f9fbff;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.about-page caption {
+    caption-side: top;
+    font-weight: bold;
+    color: #003366;
+    margin-bottom: 0.5rem;
+    text-align: left;
+}
+
+.about-page th,
+.about-page td {
+    border: 1px solid #d0d0d0;
+    padding: 0.7rem;
+    text-align: left;
+}
+
+.about-page th {
+    background-color: #e8efff;
+    color: #003366;
+}
+
+/* ---------- Figure and image styling ---------- */
+.about-page figure {
+    text-align: center;
+    margin: 1.5rem auto;
+}
+
+.about-page figure img {
+    max-width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+}
+
+.about-page figcaption {
+    margin-top: 0.5rem;
+    font-style: italic;
+    color: #444;
+}
+
+/* ---------- Member profiles (with icons) ---------- */
+.about-page article {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background-color: #f7f9fc;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.about-page article figure {
+    margin: 0;
+    flex-shrink: 0;
+}
+
+.about-page article img {
+    width: 100px;
+    height: auto;
+    border-radius: 50%;
+    border: 2px solid #b0b5bb;
+    background-color: #fff;
+}
+
+.about-page article figcaption {
+    font-weight: bold;
+    color: #003366;
+    margin-top: 0.4rem;
+}
+
+.about-page article ul {
+    margin: 0;
+    list-style: disc;
+    padding-left: 1.2rem;
+}
+
+.about-page article li {
+    margin-bottom: 0.3rem;
+}
+
+/* ---------- Responsive design ---------- */
+@media (max-width: 800px) {
+    .about-page article {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .about-page article ul {
+        padding-left: 0;
+        list-style: none;
+    }
+
+    .about-page table,
+    .about-page th,
+    .about-page td {
+        font-size: 0.95rem;
+    }
+
+    .about-page section {
+        padding: 1.2rem;
+    }
+}
+
+/* =======================================================
+   Home Page Design
+   Author: Hai Anh
+   Project: SmartTech Solutions Website
+   Purpose:
+   Defines layout, structure, and responsive design for the Home page.
+   ======================================================= */
+
+/* =======================================================
+   MAIN CONTAINER
+   Purpose:
+   Defines the central content area for the Home page, ensuring consistent spacing, padding, and background similar to other project pages.
+   ======================================================= */
+.home main {
+    width: 90%;
+    max-width: 1200px;
+    margin: 2rem auto;
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* =======================================================
+   INTRODUCTION SECTION
+   Author: Hai Anh
+   Purpose:
+   Introduces SmartTech Solutions with a brief overview and supporting image. The layout aligns text on the left and the image on the right.
+   ======================================================= */
+.intro {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+    padding: 1rem 0;
+}
+
+/* Text block: title and introductory paragraph */
+.intro-text {
+    flex: 1 1 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.intro-text h2 {
+    font-size: 2rem;
+    color: #003366;
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+.intro-text p {
+    font-size: 1.05rem;
+    color: #222;
+    line-height: 1.6;
+    margin: 0;
+    max-width: 550px;
+}
+
+/* Image block aligned to the right side */
+.intro img {
+    flex: 1 1 45%;
+    max-width: 45%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    object-fit: cover;
+}
+
+/* Responsive layout for smaller screens */
+@media (max-width: 900px) {
+    .intro {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .intro-text,
+    .intro img {
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
+
+    .intro img {
+        margin-top: 1rem;
+    }
+}
+
+/* =======================================================
+   ABOUT SECTION
+   Purpose:
+   Provides background about SmartTech Solutions and  maintains visual identity through color and spacing.
+   ======================================================= */
+.about {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    border-left: 5px solid #00509e;
+    background-color: #f7f9fc;
+    border-radius: 8px;
+}
+
+.about h2 {
+    color: #003366;
+    margin-top: 0;
+}
+
+.about p {
+    color: #222;
+    line-height: 1.6;
+    margin: 0.5rem 0 0;
+}
+
+/* =======================================================
+   SERVICES SECTION
+   Purpose:
+   Displays SmartTech’s key service areas using a responsive grid system for balanced presentation.
+   ======================================================= */
+.services {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.services h2 {
+    color: #003366;
+    border-bottom: 2px solid #b0b5bb;
+    display: inline-block;
+    padding-bottom: 0.3rem;
+    margin-bottom: 1rem;
+}
+
+/* Grid layout for service list */
+.services ul {
+    list-style-type: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.services li {
+    background: #f2f4f7;
+    border-radius: 10px;
+    padding: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.services li strong {
+    color: #00509e;
+}
+
+/* =======================================================
+   VALUES SECTION ("Why Choose Us")
+   Author: Hai Anh
+   Purpose:
+   Highlights the company’s guiding principles and organizational culture. Uses a glossy light-blue 
+   gradient background to differentiate the section while maintaining alignment with other headings.
+   ======================================================= */
+.values {
+    text-align: left;
+    margin-bottom: 2rem;
+    padding: 1.8rem 2rem;
+    background: linear-gradient(145deg, #f5faff 0%, #e6f2ff 45%, #cfe4ff 100%);
+    border: 3px solid #00509e;
+    border-radius: 12px;
+    box-shadow:
+        inset 0 2px 6px rgba(255, 255, 255, 0.7),
+        0 3px 10px rgba(0, 0, 0, 0.07);
+}
+
+/* Heading scaled for visual balance */
+.values h2 {
+    color: #002855;
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.7);
+}
+
+/* Paragraph content styled for readability */
+.values p {
+    color: #111d3a;
+    font-weight: 500;
+    max-width: 850px;
+    line-height: 1.7;
+    font-size: 1.05rem;
+    margin: 0 0 1rem 0;
+}
+
+/* =======================================================
+   CALL-TO-ACTION SECTION
+   Purpose:
+   Provides navigation links encouraging visitors to explore job opportunities or submit an application.
+   Styled consistently with the global color theme.
+   ======================================================= */
+.cta {
+    text-align: center;
+    background: linear-gradient(90deg, #00509e, #1f4e8c);
+    color: #ffffff;
+    border-radius: 10px;
+    padding: 1.5rem 1rem;
+}
+
+.cta h2 {
+    font-size: 1.5rem;
+    margin-top: 0;
+}
+
+.cta p {
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+/* Button styling for CTA links */
+.btn {
+    display: inline-block;
+    margin: 0.5rem;
+    padding: 0.7rem 1.5rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s ease;
+}
+
+/* Primary button (light theme) */
+.btn.primary {
+    background-color: #ffffff;
+    color: #00509e;
+}
+
+.btn.primary:hover {
+    background-color: #e0e0ff;
+}
+
+/* Secondary button (dark theme) */
+.btn.secondary {
+    background-color: #2d3482;
+    color: #ffffff;
+}
+
+.btn.secondary:hover {
+    background-color: #4b5fd8;
+}
