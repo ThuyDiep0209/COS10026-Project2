@@ -1,8 +1,11 @@
 <?php
-// index.php
-// Project Part 2 - Home Page
-// Purpose: Display company introduction, includes header, nav and footer modular PHP components.
-// Author: Le Thi Thuy Diep | Student ID: 104188447
+session_start();
+
+// Check login
+if (!isset($_SESSION['user_logged']) || $_SESSION['user_logged'] !== true) {
+    header("Location: user_login.php");
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
