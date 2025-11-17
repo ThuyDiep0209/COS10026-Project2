@@ -78,7 +78,7 @@
                             <ul>
                                 <li>user_login.php</li>
                                 <li>user.php</li>
-                                <li>welcome.php</li>
+                                <li>user_logout.php</li>
                             </ul>
                         </li>
                         <li>Worked on session handling and login validation</li>
