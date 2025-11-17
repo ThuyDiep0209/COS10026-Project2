@@ -21,7 +21,7 @@ if ($id <= 0 || !in_array($status, $allowed)) {
     exit();
 }
 
-$sql = "UPDATE eoi SET status = ? WHERE id = ?";
+$sql = "UPDATE eoi SET status = ? WHERE EOInumber = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("si", $status, $id);
 $ok = $stmt->execute();

@@ -1,6 +1,11 @@
 <?php
 // Bắt đầu session nếu cần
 session_start();
+
+// Pull validation errors and old inputs (if any) then clear them
+$errors = $_SESSION['errors'] ?? [];
+$old = $_SESSION['old'] ?? [];
+unset($_SESSION['errors'], $_SESSION['old']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -28,11 +33,14 @@ session_start();
                     <label for=" jobref">Job Reference Number:</label>
                     <select id="jobref" name="jobref" required>
                         <option value="">-- Select Job --</option>
-                        <option value="NA101">NA101 - Network Administrator</option>
-                        <option value="BE204">BE204 - Back-End Developer</option>
-                        <option value="UX307">UX307 - UI/UX Designer</option>
-                        <option value="ML451">ML451 - Machine Learning Engineer</option>
+                        <option value="NA101" <?= (isset($old['jobref']) && $old['jobref'] === 'NA101') ? 'selected' : '' ?>>NA101 - Network Administrator</option>
+                        <option value="BE204" <?= (isset($old['jobref']) && $old['jobref'] === 'BE204') ? 'selected' : '' ?>>BE204 - Back-End Developer</option>
+                        <option value="UX307" <?= (isset($old['jobref']) && $old['jobref'] === 'UX307') ? 'selected' : '' ?>>UX307 - UI/UX Designer</option>
+                        <option value="ML451" <?= (isset($old['jobref']) && $old['jobref'] === 'ML451') ? 'selected' : '' ?>>ML451 - Machine Learning Engineer</option>
                     </select>
+                    <?php if (isset($errors['jobref'])): ?>
+                        <div class="error"><?= htmlspecialchars($errors['jobref']) ?></div>
+                    <?php endif; ?>
                 </fieldset>
 
                 <!-- Personal Info -->
@@ -41,21 +49,33 @@ session_start();
                     <div class="form-group">
                         <label for="fname">First Name:</label>
                         <!-- <input type="text" id="fname" name="fname" maxlength="20" pattern="[A-Za-z]{1,20}" required> -->
-                        <input type="text" id="fname" name="fname" required>
+                        <input type="text" id="fname" name="fname" required value="<?= htmlspecialchars($old['fname'] ?? '') ?>">
+                        <?php if (isset($errors['fname'])): ?>
+                            <div class="error"><?= htmlspecialchars($errors['fname']) ?></div>
+                        <?php endif; ?>
                     </div>
                     <div class="form-group">
                         <label for="lname">Last Name:</label>
-                        <input type="text" id="lname" name="lname" maxlength="20" pattern="[A-Za-z]{1,20}" required>
+                        <input type="text" id="lname" name="lname" maxlength="20" pattern="[A-Za-z]{1,20}" required value="<?= htmlspecialchars($old['lname'] ?? '') ?>">
+                        <?php if (isset($errors['lname'])): ?>
+                            <div class="error"><?= htmlspecialchars($errors['lname']) ?></div>
+                        <?php endif; ?>
                     </div>
                     <div class="form-group">
                         <label for="dob">Date of Birth:</label>
-                        <input type="date" id="dob" name="dob" required>
+                        <input type="date" id="dob" name="dob" required value="<?= isset($old['dob']) ? htmlspecialchars($old['dob']) : '' ?>">
+                        <?php if (isset($errors['dob'])): ?>
+                            <div class="error"><?= htmlspecialchars($errors['dob']) ?></div>
+                        <?php endif; ?>
                     </div>
                     <fieldset class="gender-group">
                         <legend>Gender</legend>
-                        <label><input type="radio" name="gender" value="Male" required> Male</label>
-                        <label><input type="radio" name="gender" value="Female"> Female</label>
-                        <label><input type="radio" name="gender" value="Other"> Other</label>
+                        <label><input type="radio" name="gender" value="Male" required <?= (isset($old['gender']) && $old['gender'] === 'Male') ? 'checked' : '' ?>> Male</label>
+                        <label><input type="radio" name="gender" value="Female" <?= (isset($old['gender']) && $old['gender'] === 'Female') ? 'checked' : '' ?>> Female</label>
+                        <label><input type="radio" name="gender" value="Other" <?= (isset($old['gender']) && $old['gender'] === 'Other') ? 'checked' : '' ?>> Other</label>
+                        <?php if (isset($errors['gender'])): ?>
+                            <div class="error"><?= htmlspecialchars($errors['gender']) ?></div>
+                        <?php endif; ?>
                     </fieldset>
                 </fieldset>
 
@@ -64,37 +84,50 @@ session_start();
                     <legend>Contact Information</legend>
                     <div class="form-group">
                         <label for="street">Street Address:</label>
-                        <input type="text" id="street" name="street" maxlength="40" required>
+                        <input type="text" id="street" name="street" maxlength="40" required value="<?= htmlspecialchars($old['street'] ?? '') ?>">
+                        <?php if (isset($errors['street'])): ?>
+                            <div class="error"><?= htmlspecialchars($errors['street']) ?></div>
+                        <?php endif; ?>
                     </div>
                     <div class="form-group">
                         <label for="suburb">Suburb/Town:</label>
-                        <input type="text" id="suburb" name="suburb" maxlength="40" required>
+                        <input type="text" id="suburb" name="suburb" maxlength="40" required value="<?= htmlspecialchars($old['suburb'] ?? '') ?>">
+                        <?php if (isset($errors['suburb'])): ?>
+                            <div class="error"><?= htmlspecialchars($errors['suburb']) ?></div>
+                        <?php endif; ?>
                     </div>
                     <div class="form-group">
                         <label for="state">State:</label>
                         <select id="state" name="state" required>
                             <option value="">-- Select State --</option>
-                            <option>VIC</option>
-                            <option>NSW</option>
-                            <option>QLD</option>
-                            <option>NT</option>
-                            <option>WA</option>
-                            <option>SA</option>
-                            <option>TAS</option>
-                            <option>ACT</option>
+                            <?php foreach (['VIC', 'NSW', 'QLD', 'NT', 'WA', 'SA', 'TAS', 'ACT'] as $st): ?>
+                                <option value="<?= $st ?>" <?= (isset($old['state']) && $old['state'] === $st) ? 'selected' : '' ?>><?= $st ?></option>
+                            <?php endforeach; ?>
                         </select>
+                        <?php if (isset($errors['state'])): ?>
+                            <div class="error"><?= htmlspecialchars($errors['state']) ?></div>
+                        <?php endif; ?>
                     </div>
                     <div class="form-group">
                         <label for="postcode">Postcode:</label>
-                        <input type="text" id="postcode" name="postcode" pattern="\d{4}" maxlength="4" required>
+                        <input type="text" id="postcode" name="postcode" pattern="\d{4}" maxlength="4" required value="<?= htmlspecialchars($old['postcode'] ?? '') ?>">
+                        <?php if (isset($errors['postcode'])): ?>
+                            <div class="error"><?= htmlspecialchars($errors['postcode']) ?></div>
+                        <?php endif; ?>
                     </div>
                     <div class="form-group">
                         <label for="email">Email:</label>
-                        <input type="email" id="email" name="email" required>
+                        <input type="email" id="email" name="email" required value="<?= htmlspecialchars($old['email'] ?? '') ?>">
+                        <?php if (isset($errors['email'])): ?>
+                            <div class="error"><?= htmlspecialchars($errors['email']) ?></div>
+                        <?php endif; ?>
                     </div>
                     <div class="form-group">
                         <label for="phone">Phone Number:</label>
-                        <input type="tel" id="phone" name="phone" pattern="[\d\s]{8,12}" required>
+                        <input type="tel" id="phone" name="phone" pattern="[\d\s]{8,12}" required value="<?= htmlspecialchars($old['phone'] ?? '') ?>">
+                        <?php if (isset($errors['phone'])): ?>
+                            <div class="error"><?= htmlspecialchars($errors['phone']) ?></div>
+                        <?php endif; ?>
                     </div>
                 </fieldset>
 
@@ -102,14 +135,20 @@ session_start();
                 <fieldset>
                     <legend>Technical Skills</legend>
                     <div class="checkbox-group">
-                        <label><input type="checkbox" name="skills[]" value="HTML" checked> HTML</label>
-                        <label><input type="checkbox" name="skills[]" value="CSS"> CSS</label>
-                        <label><input type="checkbox" name="skills[]" value="JavaScript"> JavaScript</label>
-                        <label><input type="checkbox" name="skills[]" value="Python"> Python</label>
+                        <?php $old_skills = $old['skills'] ?? []; ?>
+                        <label><input type="checkbox" name="skills[]" value="HTML" <?= in_array('HTML', $old_skills) ? 'checked' : '' ?>> HTML</label>
+                        <label><input type="checkbox" name="skills[]" value="CSS" <?= in_array('CSS', $old_skills) ? 'checked' : '' ?>> CSS</label>
+                        <label><input type="checkbox" name="skills[]" value="JavaScript" <?= in_array('JavaScript', $old_skills) ? 'checked' : '' ?>> JavaScript</label>
+                        <label><input type="checkbox" name="skills[]" value="Python" <?= in_array('Python', $old_skills) ? 'checked' : '' ?>> Python</label>
                     </div>
+                    <?php if (isset($errors['skills'])): ?>
+                        <div class="error"><?= htmlspecialchars($errors['skills']) ?></div>
+                    <?php endif; ?>
                     <label for="others">Other Skills:</label>
-                    <textarea id="others" name="others" rows="4"
-                        placeholder="Write about your other skills..."></textarea>
+                    <textarea id="others" name="others" rows="4" placeholder="Write about your other skills..."><?= htmlspecialchars($old['others'] ?? '') ?></textarea>
+                    <?php if (isset($errors['others'])): ?>
+                        <div class="error"><?= htmlspecialchars($errors['others']) ?></div>
+                    <?php endif; ?>
                 </fieldset>
 
                 <!-- Submit -->

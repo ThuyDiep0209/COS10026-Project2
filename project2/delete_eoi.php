@@ -17,7 +17,7 @@ if ($id <= 0) {
     exit();
 }
 
-$sql = "DELETE FROM eoi WHERE id = ?";
+$sql = "DELETE FROM eoi WHERE EOInumber = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $id);
 $ok = $stmt->execute();

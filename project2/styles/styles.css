@@ -91,6 +91,13 @@ textarea:focus {
     box-shadow: 0 0 3px #0074d9;
 }
 
+/* Validation error message */
+.error {
+    color: #c0392b;
+    margin-top: 0.25rem;
+    font-size: 0.95rem;
+}
+
 /* Gender radio button spacing */
 .gender-group label {
     margin-right: 1rem;
@@ -682,13 +689,13 @@ main {
    Defines the central content area for the Home page, ensuring consistent spacing, padding, and background similar to other project pages.
    ======================================================= */
 .home main {
-  width: 90%;
-  max-width: 1200px;
-  margin: 2rem auto;
-  background: #ffffff;
-  padding: 2rem;
-  border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 1200px;
+    margin: 2rem auto;
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 /* =======================================================
@@ -698,64 +705,64 @@ main {
    Introduces SmartTech Solutions with a brief overview and supporting image. The layout aligns text on the left and the image on the right.
    ======================================================= */
 .intro {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 2rem;
-  margin-bottom: 2.5rem;
-  flex-wrap: wrap;
-  padding: 1rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+    padding: 1rem 0;
 }
 
 /* Text block: title and introductory paragraph */
 .intro-text {
-  flex: 1 1 50%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+    flex: 1 1 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .intro-text h2 {
-  font-size: 2rem;
-  color: #003366;
-  margin-top: 0;
-  margin-bottom: 1rem;
+    font-size: 2rem;
+    color: #003366;
+    margin-top: 0;
+    margin-bottom: 1rem;
 }
 
 .intro-text p {
-  font-size: 1.05rem;
-  color: #222;
-  line-height: 1.6;
-  margin: 0;
-  max-width: 550px;
+    font-size: 1.05rem;
+    color: #222;
+    line-height: 1.6;
+    margin: 0;
+    max-width: 550px;
 }
 
 /* Image block aligned to the right side */
 .intro img {
-  flex: 1 1 45%;
-  max-width: 45%;
-  height: auto;
-  border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  object-fit: cover;
+    flex: 1 1 45%;
+    max-width: 45%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    object-fit: cover;
 }
 
 /* Responsive layout for smaller screens */
 @media (max-width: 900px) {
-  .intro {
-    flex-direction: column;
-    text-align: center;
-  }
+    .intro {
+        flex-direction: column;
+        text-align: center;
+    }
 
-  .intro-text,
-  .intro img {
-    flex: 1 1 100%;
-    max-width: 100%;
-  }
+    .intro-text,
+    .intro img {
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
 
-  .intro img {
-    margin-top: 1rem;
-  }
+    .intro img {
+        margin-top: 1rem;
+    }
 }
 
 /* =======================================================
@@ -764,22 +771,22 @@ main {
    Provides background about SmartTech Solutions and  maintains visual identity through color and spacing.
    ======================================================= */
 .about {
-  margin-bottom: 2rem;
-  padding: 1.5rem;
-  border-left: 5px solid #00509e;
-  background-color: #f7f9fc;
-  border-radius: 8px;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    border-left: 5px solid #00509e;
+    background-color: #f7f9fc;
+    border-radius: 8px;
 }
 
 .about h2 {
-  color: #003366;
-  margin-top: 0;
+    color: #003366;
+    margin-top: 0;
 }
 
 .about p {
-  color: #222;
-  line-height: 1.6;
-  margin: 0.5rem 0 0;
+    color: #222;
+    line-height: 1.6;
+    margin: 0.5rem 0 0;
 }
 
 /* =======================================================
@@ -788,38 +795,38 @@ main {
    Displays SmartTech’s key service areas using a responsive grid system for balanced presentation.
    ======================================================= */
 .services {
-  margin-bottom: 2rem;
-  text-align: center;
+    margin-bottom: 2rem;
+    text-align: center;
 }
 
 .services h2 {
-  color: #003366;
-  border-bottom: 2px solid #b0b5bb;
-  display: inline-block;
-  padding-bottom: 0.3rem;
-  margin-bottom: 1rem;
+    color: #003366;
+    border-bottom: 2px solid #b0b5bb;
+    display: inline-block;
+    padding-bottom: 0.3rem;
+    margin-bottom: 1rem;
 }
 
 /* Grid layout for service list */
 .services ul {
-  list-style-type: none;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1rem;
+    list-style-type: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
 }
 
 .services li {
-  background: #f2f4f7;
-  border-radius: 10px;
-  padding: 1rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  font-size: 1rem;
-  line-height: 1.5;
+    background: #f2f4f7;
+    border-radius: 10px;
+    padding: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    font-size: 1rem;
+    line-height: 1.5;
 }
 
 .services li strong {
-  color: #00509e;
+    color: #00509e;
 }
 
 /* =======================================================
@@ -830,35 +837,35 @@ main {
    gradient background to differentiate the section while maintaining alignment with other headings.
    ======================================================= */
 .values {
-  text-align: left;
-  margin-bottom: 2rem;
-  padding: 1.8rem 2rem;
-  background: linear-gradient(145deg, #f5faff 0%, #e6f2ff 45%, #cfe4ff 100%);
-  border: 3px solid #00509e;
-  border-radius: 12px;
-  box-shadow:
-    inset 0 2px 6px rgba(255, 255, 255, 0.7),
-    0 3px 10px rgba(0, 0, 0, 0.07);
+    text-align: left;
+    margin-bottom: 2rem;
+    padding: 1.8rem 2rem;
+    background: linear-gradient(145deg, #f5faff 0%, #e6f2ff 45%, #cfe4ff 100%);
+    border: 3px solid #00509e;
+    border-radius: 12px;
+    box-shadow:
+        inset 0 2px 6px rgba(255, 255, 255, 0.7),
+        0 3px 10px rgba(0, 0, 0, 0.07);
 }
 
 /* Heading scaled for visual balance */
 .values h2 {
-  color: #002855;
-  font-size: 1.6rem;
-  font-weight: 700;
-  margin-top: 0;
-  margin-bottom: 1rem;
-  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.7);
+    color: #002855;
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.7);
 }
 
 /* Paragraph content styled for readability */
 .values p {
-  color: #111d3a;
-  font-weight: 500;
-  max-width: 850px;
-  line-height: 1.7;
-  font-size: 1.05rem;
-  margin: 0 0 1rem 0;
+    color: #111d3a;
+    font-weight: 500;
+    max-width: 850px;
+    line-height: 1.7;
+    font-size: 1.05rem;
+    margin: 0 0 1rem 0;
 }
 
 /* =======================================================
@@ -868,50 +875,50 @@ main {
    Styled consistently with the global color theme.
    ======================================================= */
 .cta {
-  text-align: center;
-  background: linear-gradient(90deg, #00509e, #1f4e8c);
-  color: #ffffff;
-  border-radius: 10px;
-  padding: 1.5rem 1rem;
+    text-align: center;
+    background: linear-gradient(90deg, #00509e, #1f4e8c);
+    color: #ffffff;
+    border-radius: 10px;
+    padding: 1.5rem 1rem;
 }
 
 .cta h2 {
-  font-size: 1.5rem;
-  margin-top: 0;
+    font-size: 1.5rem;
+    margin-top: 0;
 }
 
 .cta p {
-  font-size: 1rem;
-  line-height: 1.6;
+    font-size: 1rem;
+    line-height: 1.6;
 }
 
 /* Button styling for CTA links */
 .btn {
-  display: inline-block;
-  margin: 0.5rem;
-  padding: 0.7rem 1.5rem;
-  border-radius: 6px;
-  text-decoration: none;
-  font-weight: bold;
-  transition: background 0.3s ease;
+    display: inline-block;
+    margin: 0.5rem;
+    padding: 0.7rem 1.5rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s ease;
 }
 
 /* Primary button (light theme) */
 .btn.primary {
-  background-color: #ffffff;
-  color: #00509e;
+    background-color: #ffffff;
+    color: #00509e;
 }
 
 .btn.primary:hover {
-  background-color: #e0e0ff;
+    background-color: #e0e0ff;
 }
 
 /* Secondary button (dark theme) */
 .btn.secondary {
-  background-color: #2d3482;
-  color: #ffffff;
+    background-color: #2d3482;
+    color: #ffffff;
 }
 
 .btn.secondary:hover {
-  background-color: #4b5fd8;
+    background-color: #4b5fd8;
 }

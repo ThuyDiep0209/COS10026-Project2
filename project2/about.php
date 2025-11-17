@@ -22,7 +22,6 @@
                 <li>
                     <strong>Members (Name and ID):</strong>
                     <ul>
-                        <li>Vu Hai Anh (104848796)</li>
                         <li>Vo Quynh Thu (105978005)</li>
                         <li>Le Thi Thuy Diep (104188447)</li>
                     </ul>
@@ -31,17 +30,64 @@
         </section>
 
         <section>
-            <h2>Members' Contributions</h2>
-            <dl>
-                <dt>Le Thi Thuy Diep</dt>
-                <dd>Complete fontend: header.inc; nav.inc; footer.inc; index.php; job.php; about.php; setting.php,
-                    create table SQL
-                </dd>
-                <dt>Vo Quynh Thu</dt>
-                <dd>Complete backend: appy.php; manage.php </dd>
+            <h2>Group Members & Contributions</h2>
 
+            <dl>
+
+                <!-- Member 1 -->
+                <dt><strong>Le Thi Thuy Diep</strong></dt>
+                <dd>
+                    <strong>Role:</strong> Main Developer <br>
+                    <strong>Contributions:</strong>
+                    <ul>
+                        <li>Developed all project pages except the user login module</li>
+                        <li>Implemented:
+                            <ul>
+                                <li>index.php</li>
+                                <li>jobs.php</li>
+                                <li>apply.php</li>
+                                <li>process_eoi.php</li>
+                                <li>view_eoi.php</li>
+                                <li>delete_eoi.php</li>
+                                <li>update_status.php</li>
+                                <li>manage.php</li>
+                                <li>manager_login.php</li>
+                                <li>manager_logout.php</li>
+                                <li>manager_register.php</li>
+                                <li>enhancement.php</li>
+                                <li>about.php</li>
+                            </ul>
+                        </li>
+                        <li>Created shared interface components (header.inc, footer.inc, nav.inc)</li>
+                        <li>Designed page layout and styling (styles.css, manage.css)</li>
+                        <li>Testing, debugging, and overall project integration</li>
+                    </ul>
+                </dd>
+
+                <br>
+                <hr>
+
+                <!-- Member 2 -->
+                <dt><strong>Vu Quynh Thu</strong></dt>
+                <dd>
+                    <strong>Role:</strong> User Authentication Developer <br>
+                    <strong>Contributions:</strong>
+                    <ul>
+                        <li>Implemented user authentication module</li>
+                        <li>Created:
+                            <ul>
+                                <li>user_login.php</li>
+                                <li>user.php</li>
+                                <li>welcome.php</li>
+                            </ul>
+                        </li>
+                        <li>Worked on session handling and login validation</li>
+                        <li>Assisted with database logic for user login</li>
+                    </ul>
+                </dd>
 
             </dl>
+
         </section>
 
         <section>

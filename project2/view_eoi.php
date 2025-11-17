@@ -16,7 +16,7 @@ $csrf = $_SESSION['csrf_token'];
 $eoi_id = intval($_GET['id'] ?? 0);
 if ($eoi_id <= 0) die("Invalid EOI ID");
 
-$sql = "SELECT * FROM eoi WHERE id = ?";
+$sql = "SELECT * FROM eoi WHERE EOInumber = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $eoi_id);
 $stmt->execute();
@@ -44,14 +44,14 @@ $conn->close();
     <?php include 'header.inc'; ?>
 
     <main class="view-container">
-        <h1>EOI Details (ID: <?= $eoi['id'] ?>)</h1>
+        <h1>EOI Details (ID: <?= $eoi['EOInumber'] ?>)</h1>
 
         <table class="view-table" border="0" cellpadding="6">
             <?php foreach ($eoi as $key => $val): ?>
-            <tr>
-                <th><?= htmlspecialchars(ucfirst($key)) ?></th>
-                <td><?= nl2br(htmlspecialchars($val)) ?></td>
-            </tr>
+                <tr>
+                    <th><?= htmlspecialchars(ucfirst($key)) ?></th>
+                    <td><?= nl2br(htmlspecialchars($val)) ?></td>
+                </tr>
             <?php endforeach; ?>
         </table>
 
@@ -60,16 +60,16 @@ $conn->close();
         <!-- Update Status -->
         <form action="update_status.php" method="post" style="display:inline-block;">
             <input type="hidden" name="csrf_token" value="<?= $csrf ?>">
-            <input type="hidden" name="id" value="<?= $eoi['id'] ?>">
+            <input type="hidden" name="id" value="<?= $eoi['EOInumber'] ?>">
 
             <label>Status:
                 <select name="status">
                     <?php
-                foreach (['New', 'Current', 'Final'] as $s) {
-                    $sel = ($s === $eoi['status']) ? "selected" : "";
-                    echo "<option value='$s' $sel>$s</option>";
-                }
-                ?>
+                    foreach (['New', 'Current', 'Final'] as $s) {
+                        $sel = ($s === $eoi['status']) ? "selected" : "";
+                        echo "<option value='$s' $sel>$s</option>";
+                    }
+                    ?>
                 </select>
             </label>
 
@@ -80,7 +80,7 @@ $conn->close();
         <form action="delete_eoi.php" method="post" style="display:inline-block;"
             onsubmit="return confirm('Delete this EOI?');">
             <input type="hidden" name="csrf_token" value="<?= $csrf ?>">
-            <input type="hidden" name="id" value="<?= $eoi['id'] ?>">
+            <input type="hidden" name="id" value="<?= $eoi['EOInumber'] ?>">
             <button type="submit">Delete</button>
         </form>
 

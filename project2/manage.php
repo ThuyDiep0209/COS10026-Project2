@@ -31,17 +31,17 @@ $params = [];
 $types = "";
 
 if ($search !== "") {
-    $where_sql = "WHERE lname LIKE ? OR jobref LIKE ?";
+    $where_sql = "WHERE last_name LIKE ? OR job_ref LIKE ?";
     $search_param = "%{$search}%";
     $params = [$search_param, $search_param];
     $types = "ss";
 }
 
 // Query EOI
-$sql = "SELECT id, jobref, fname, lname, email, phone, status, submitted_at 
+$sql = "SELECT EOInumber AS id, job_ref AS jobref, first_name AS fname, last_name AS lname, email, phone, status
         FROM eoi 
         $where_sql 
-        ORDER BY submitted_at DESC";
+        ORDER BY EOInumber DESC";
 
 $stmt = $conn->prepare($sql);
 if (!$stmt) die("SQL Error: " . $conn->error);
@@ -99,7 +99,6 @@ $result = $stmt->get_result();
                 <th>Last</th>
                 <th>Email</th>
                 <th>Phone</th>
-                <th>Submitted</th>
                 <th>Status</th>
                 <th>Actions</th>
             </tr>
@@ -112,7 +111,6 @@ $result = $stmt->get_result();
                 <td><?= htmlspecialchars($row['lname']) ?></td>
                 <td><?= htmlspecialchars($row['email']) ?></td>
                 <td><?= htmlspecialchars($row['phone']) ?></td>
-                <td><?= htmlspecialchars($row['submitted_at']) ?></td>
                 <td><?= htmlspecialchars($row['status']) ?></td>
 
                 <td>
