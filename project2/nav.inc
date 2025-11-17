@@ -15,5 +15,8 @@
         <li>
           <a href="mailto:info@smarttech.com.au">Contact</a>
         </li>
+        <li>
+          <a href="user_logout.php">LogOut</a>
+        </li>
       </ul>
     </nav>

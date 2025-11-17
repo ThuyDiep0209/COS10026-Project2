@@ -2,59 +2,55 @@
 session_start();
 require_once 'settings.php';
 
-$error = "";
-$success = "";
+$error = '';
+$success = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $name = trim($_POST['name'] ?? '');
-    $email = trim($_POST['email'] ?? '');
+    $username = trim($_POST['username'] ?? '');
     $password = trim($_POST['password'] ?? '');
 
-    if ($name === "" || $email === "" || $password === "") {
-        $error = "Vui lòng nhập đầy đủ thông tin.";
-    } else {
-        $hash = password_hash($password, PASSWORD_DEFAULT);
+    if ($username && $password) {
+        $stmt = mysqli_prepare($conn, "SELECT id FROM users WHERE username=?");
+        mysqli_stmt_bind_param($stmt, "s", $username);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
 
-        $sql = "INSERT INTO users (name, email, password) VALUES (?, ?, ?)";
-        $stmt = mysqli_prepare($conn, $sql);
-        mysqli_stmt_bind_param($stmt, "sss", $name, $email, $hash);
-
-        if (mysqli_stmt_execute($stmt)) {
-            $success = "Đăng ký thành công! Hãy đăng nhập.";
+        if (mysqli_num_rows($result) > 0) {
+            $error = "Username already exists!";
         } else {
-            $error = "Email đã tồn tại hoặc lỗi hệ thống.";
+            $password_hash = password_hash($password, PASSWORD_DEFAULT);
+
+            $stmt = mysqli_prepare($conn, "INSERT INTO users (username, password) VALUES (?, ?)");
+            mysqli_stmt_bind_param($stmt, "ss", $username, $password_hash);
+
+            if (mysqli_stmt_execute($stmt)) {
+                $success = "Sign up successful! <a href='user_login.php'>Login now</a>";
+            } else {
+                $error = "Something went wrong, please try again!";
+            }
         }
+    } else {
+        $error = "Please fill in all fields.";
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html>
 
 <head>
-    <title>User Register</title>
+    <title>Sign Up</title>
 </head>
 
 <body>
-
-    <h2>Register</h2>
-
-    <form method="POST">
-        Name:<br>
-        <input type="text" name="name"><br><br>
-
-        Email:<br>
-        <input type="email" name="email"><br><br>
-
-        Password:<br>
-        <input type="password" name="password"><br><br>
-
-        <button type="submit">Register</button>
+    <h2>Create an Account</h2>
+    <?php if($error) echo "<p style='color:red;'>$error</p>"; ?>
+    <?php if($success) echo "<p style='color:green;'>$success</p>"; ?>
+    <form method="post" action="">
+        <label>Username:</label> <input type="text" name="username"><br><br>
+        <label>Password:</label> <input type="password" name="password"><br><br>
+        <button type="submit">Sign Up</button>
     </form>
-
-    <p style="color:green;"><?= $success ?></p>
-    <p style="color:red;"><?= $error ?></p>
-
+    <p>Already have an account? <a href="user_login.php">Login</a></p>
 </body>
 
 </html>

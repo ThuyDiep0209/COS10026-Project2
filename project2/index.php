@@ -6,6 +6,7 @@ if (!isset($_SESSION['user_logged']) || $_SESSION['user_logged'] !== true) {
     header("Location: user_login.php");
     exit();
 }
+$username = $_SESSION['username'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,7 +24,14 @@ if (!isset($_SESSION['user_logged']) || $_SESSION['user_logged'] !== true) {
 
     <?php include 'header.inc'; ?>
 
+
     <main>
+
+        <div>
+            <p>Welcome, <?php echo htmlspecialchars($username); ?>
+        </div>
+
+
 
         <section class="intro" aria-labelledby="intro-title">
             <div class="intro-text">
