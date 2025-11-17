@@ -1,8 +1,12 @@
 <?php
-// index.php
-// Project Part 2 - Home Page
-// Purpose: Display company introduction, includes header, nav and footer modular PHP components.
-// Author: Le Thi Thuy Diep | Student ID: 104188447
+session_start();
+
+// Check login
+if (!isset($_SESSION['user_logged']) || $_SESSION['user_logged'] !== true) {
+    header("Location: user_login.php");
+    exit();
+}
+$username = $_SESSION['username'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,7 +24,14 @@
 
     <?php include 'header.inc'; ?>
 
+
     <main>
+
+        <div>
+            <p>Welcome, <?php echo htmlspecialchars($username); ?>
+        </div>
+
+
 
         <section class="intro" aria-labelledby="intro-title">
             <div class="intro-text">

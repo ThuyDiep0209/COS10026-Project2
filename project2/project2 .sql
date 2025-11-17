@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 17, 2025 lúc 05:20 PM
+-- Thời gian đã tạo: Th10 17, 2025 lúc 06:28 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -100,6 +100,25 @@ CREATE TABLE `managers` (
 INSERT INTO `managers` (`id`, `username`, `password_hash`, `failed_attempts`, `locked_until`) VALUES
 (3, 'diep', '$2y$10$p/bEJKODxirgKEPSXESv9OSRRIVFxAT.7AfElCObIbE4DDtaOxn1u', 0, NULL);
 
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `password`) VALUES
+(1, 'Thu', '$2y$10$b38CMTBL9bPT82wSu2mxQep20HeflT8/06ETb1DaKpu30JWPnFkGK');
+
 --
 -- Chỉ mục cho các bảng đã đổ
 --
@@ -124,6 +143,13 @@ ALTER TABLE `managers`
   ADD UNIQUE KEY `username` (`username`);
 
 --
+-- Chỉ mục cho bảng `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `username` (`username`);
+
+--
 -- AUTO_INCREMENT cho các bảng đã đổ
 --
 
@@ -131,13 +157,19 @@ ALTER TABLE `managers`
 -- AUTO_INCREMENT cho bảng `eoi`
 --
 ALTER TABLE `eoi`
-  MODIFY `EOInumber` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `EOInumber` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT cho bảng `managers`
 --
 ALTER TABLE `managers`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT cho bảng `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
